@@ -9,7 +9,7 @@ npm i -s ssocket
 ```
 
 
-### 添加依赖
+### 添加依赖 [下载引用包](https://github.com/mytwz/ssocket-android/releases/download/1.0.0/sclient1.0.aar)
 ```Java
 // build.gradle
 
