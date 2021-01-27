@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    libraryVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "sclient${defaultConfig.versionName}.aar"
+        }
+        // 复制aar到指定目录
+        variant.assemble.doLast {
+            variant.outputs.all { output ->
+                def outputPath = [project.rootDir.absolutePath, "release"].join(File.separator)
+                copy {
+                    from output.outputFile
+                    into outputPath
+                }
+                delete(output.outputFile)
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    annotationProcessor "org.projectlombok:lombok:1.18.2"
+    implementation "org.projectlombok:lombok:1.18.2"
+    implementation 'com.squareup.okhttp3:okhttp:3.5.0'
+    implementation 'com.alibaba:fastjson:1.2.73'
+}

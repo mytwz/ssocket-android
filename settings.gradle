@@ -1,0 +1,3 @@
+rootProject.name='ssocket_lib'
+include ':app'
+include ':ssocket'
