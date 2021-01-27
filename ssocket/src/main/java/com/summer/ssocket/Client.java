@@ -97,7 +97,7 @@ public class Client extends Emitter {
 
     public Client connection(){
         if(status != Code.SocketStatus.CLOSE) return this;
-        this.id = options.id;
+        if(!"".equals(options.id)) this.id = options.id;
         if(options.getProtosRequestJson() != null){
             Code.parseRequestJson(options.getProtosRequestJson());
         }
