@@ -22,6 +22,7 @@ implementation 'com.alibaba:fastjson:1.2.73'
 ### 创建客户端对象
 ```Java
 import com.summer.ssocket.Client;
+import androidx.core.util.Consumer;
 
 Client client = new Client("http://127.0.0.1:8080");
 ```
