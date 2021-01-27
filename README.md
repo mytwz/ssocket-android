@@ -73,6 +73,12 @@ client.on("pong", new Consumer() {
         Logger.i(TAG,"心跳服务器回应，此时服务器当前时间是", o);
     }
 });
+client.on("ping", new Consumer() {
+    @Override
+    public void accept(Object o) {
+        Logger.i(TAG,"向服务器发送心跳，此时客户端当前时间是", System.currentTimeMillis());
+    }
+});
 ```
 
 ### 监听路由事件
