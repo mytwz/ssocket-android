@@ -16,7 +16,15 @@ implementation 'com.alibaba:fastjson:1.2.73'
 ### 创建客户端对象
 ```Java
 Client client = new Client("http://127.0.0.1:8080");
-client.connection().on("close", new Consumer() {
+```
+
+### 发起连接
+```Java
+client.connection()
+```
+### 绑定基础事件
+```Java
+client.on("close", new Consumer() {
     @Override
     public void accept(Object o) {
         Logger.i(TAG,"连接关闭", o);
@@ -32,14 +40,7 @@ client.on("connection", new Consumer() {
     @Override
     public void accept(Object o) {
         Logger.i(TAG,"与服务端握手成功， 此时可以开始发送消息", o);
-        client.request("test", new JSONObject() {{
-                put("username", "小明");
-        }}, new Consumer<JSONObject>() {
-            @Override
-            public void accept(JSONObject o) {
-                Logger.i(TAG, "收到请求回调", o);
-            }
-        });
+        
     }
 });
 client.on("shakehands", new Consumer() {
@@ -66,10 +67,26 @@ client.on("pong", new Consumer() {
         Logger.i(TAG,"心跳服务器回应，此时服务器当前时间是", o);
     }
 });
+```
+
+### 监听路由事件
+```Java
 client.on("user.user.login", new Consumer() {
     @Override
     public void accept(Object o) {
         Logger.i(TAG,"客户端收到一个消息", o);
+    }
+});
+```
+
+### 发送请求
+```Java
+client.request("test", new JSONObject() {{
+        put("username", "小明");
+}}, new Consumer<JSONObject>() {
+    @Override
+    public void accept(JSONObject o) {
+        Logger.i(TAG, "收到请求回调", o);
     }
 });
 ```
