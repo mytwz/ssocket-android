@@ -104,3 +104,32 @@ client.on("user.user.login", new Consumer() {
 client.getOptions().setProtosRequestJson(getResources().getString(R.string.protos_request_json)); // 获取 ProtoBuf 请求配置
 client.getOptions().setProtosResponseJson(getResources().getString(R.string.protos_response_json)); // 获取 ProtoBuf 响应配置
 ```
+### 运行样例
+```text
+2021-01-27 09:27:55.973 4646-4730/com.summer.ssocket_lib I/Client: 连接成功: []
+2021-01-27 09:27:55.973 4646-4730/com.summer.ssocket_lib I/MainActivity: 连接打开, 开始握手, 此时还不能发送消息: [null]
+2021-01-27 09:27:55.983 4646-4730/com.summer.ssocket_lib I/MainActivity: 握手状态: [SHAKING_HANDS]
+2021-01-27 09:27:55.983 4646-4730/com.summer.ssocket_lib I/Client: 开始握手: [SHAKING_HANDS]
+2021-01-27 09:27:55.995 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":{"ack":2,"id":"AABHjAANZUcAAAACAACFJg=="},"type":0}]
+2021-01-27 09:27:55.996 4646-4730/com.summer.ssocket_lib I/MainActivity: 握手状态: [CONNECTION]
+2021-01-27 09:27:55.999 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":{"ack":3,"id":"AABHjAANZUcAAAACAACFJg=="},"type":0}]
+2021-01-27 09:27:56.000 4646-4730/com.summer.ssocket_lib I/MainActivity: 握手状态: [CONNECTION]
+2021-01-27 09:27:56.000 4646-4730/com.summer.ssocket_lib I/MainActivity: 重连成功: [null]
+2021-01-27 09:27:56.000 4646-4730/com.summer.ssocket_lib I/Client: 握手完成，开始心跳: [CONNECTION]
+2021-01-27 09:27:56.002 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":1611710877928,"type":1}]
+2021-01-27 09:27:56.002 4646-4730/com.summer.ssocket_lib I/MainActivity: 心跳服务器回应，此时服务器当前时间是: [1611710877928]
+2021-01-27 09:28:00.461 4646-4646/com.summer.ssocket_lib I/Client: 发送数据: [{"data":{"username":"小明"},"path":"test","request_id":1,"status":0}]
+2021-01-27 09:28:00.501 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":{"data":{"username":"登录成功，欢迎小明"},"msg":"ok","path":"user.user.login","request_id":0,"status":200},"type":2}]
+2021-01-27 09:28:00.501 4646-4730/com.summer.ssocket_lib I/MainActivity: 客户端收到一个消息: [{"username":"登录成功，欢迎小明"}]
+2021-01-27 09:28:00.528 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":{"data":{"username":"登录成功，欢迎小明"},"msg":"ok","path":"user.user.login","request_id":0,"status":200},"type":2}]
+2021-01-27 09:28:00.528 4646-4730/com.summer.ssocket_lib I/MainActivity: 客户端收到一个消息: [{"username":"登录成功，欢迎小明"}]
+2021-01-27 09:28:00.533 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":{"data":{"username":"登录成功，欢迎小明"},"msg":"ok","path":"test","request_id":1,"status":200},"type":2}]
+2021-01-27 09:28:00.533 4646-4730/com.summer.ssocket_lib I/MainActivity: 收到请求回调: [{"username":"登录成功，欢迎小明"}]
+2021-01-27 09:28:00.538 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":{"data":{"username":"登录成功，欢迎小明"},"msg":"ok","path":"user.user.login","request_id":0,"status":200},"type":2}]
+2021-01-27 09:28:00.538 4646-4730/com.summer.ssocket_lib I/MainActivity: 客户端收到一个消息: [{"username":"登录成功，欢迎小明"}]
+2021-01-27 09:28:06.009 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":1611710887935,"type":1}]
+2021-01-27 09:28:06.010 4646-4730/com.summer.ssocket_lib I/MainActivity: 心跳服务器回应，此时服务器当前时间是: [1611710887935]
+2021-01-27 09:28:16.023 4646-4730/com.summer.ssocket_lib I/Client: 接收到消息: [{"data":1611710897949,"type":1}]
+2021-01-27 09:28:16.023 4646-4730/com.summer.ssocket_lib I/MainActivity: 心跳服务器回应，此时服务器当前时间是: [1611710897949]
+
+```
