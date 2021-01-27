@@ -3,6 +3,12 @@
 
 ## 使用说明
 
+### [点击安装服务端程序](https://github.com/mytwz/ssocket)
+```javascript
+npm i -s ssocket
+```
+
+
 ### 添加依赖
 ```Java
 // build.gradle
