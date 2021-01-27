@@ -1,5 +1,5 @@
 ![npm version](https://img.shields.io/badge/npm-1.0.0-brightgreen)
- > 仿 Koa 中间件控制的 WebSocket 服务，安卓手机客户端程序，食用简单，上手容易, 支持 GZIP 解压缩和 ProtoBuffer 解压缩配置，觉得小弟写的还行的话，就给个[Star](https://github.com/mytwz/ssocket)⭐️吧~
+ > 仿 Koa 中间件控制的 WebSocket 服务，安卓手机客户端程序，食用简单，上手容易, 支持 GZIP 解压缩和 ProtoBuffer 解压缩配置，觉得小弟写的还行的话，就给个[Star](https://github.com/mytwz/ssocket-android)⭐️吧~
 
 ## 使用说明
 
