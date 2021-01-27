@@ -151,7 +151,7 @@ public class Client extends Emitter {
                     if(Code.PackageType.SHAKEHANDS.getValue() == aPackage.getType()){
                         Code.ShakehandsPackageData data = aPackage.getData();
                         if(data.getAck() == Code.SocketStatus.HANDSHAKE.getValue()){
-                            if(id == "") id = data.getId();
+                            if("".equals(id)) id = data.getId();
                             shakehands(Code.SocketStatus.CONNECTION);
                             status = Code.SocketStatus.CONNECTION;
                             emit("shakehands", status);
@@ -159,7 +159,7 @@ public class Client extends Emitter {
                         else if(data.getAck() == Code.SocketStatus.CONNECTION.getValue()){
                             status = Code.SocketStatus.CONNECTION;
                             emit("shakehands", status);
-                            emit(id != data.getId() ? "reconnection" : "connection", null);
+                            emit(id.equals(data.getId()) ? "connection" : "reconnection", null);
                             send(Code.encode(Code.PackageType.HEARTBEAT));
                             Logger.i(TAG,"握手完成，开始心跳", status);
                         }
