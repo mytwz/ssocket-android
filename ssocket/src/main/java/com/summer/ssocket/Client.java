@@ -26,14 +26,6 @@ public class Client extends Emitter {
     public static class Options {
         private String id = "";
         /**
-         * 是否打印心跳
-         */
-        private boolean is_log_heartbeat = true;
-        /**
-         * 是否打印其他日志
-         */
-        private boolean is_log_message = true;
-        /**
          * 重连次数
          */
         private int reconnect_count = 20;

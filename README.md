@@ -91,6 +91,13 @@ client.request("test", new JSONObject() {{
 });
 ```
 
+### 基础配置
+```Java
+client.getOptions().setHeartbeat_interval(1000 * 10);   // 设置心跳间隔时间
+client.getOptions().setHeartbeat_time_out(1000 * 11);   // 设置心跳超时时间
+client.getOptions().setReconnect_count(20);             // 设置重连次数
+client.getOptions().setReconnect_interval(1000 * 2);    // 设置重连间隔
+```
 
 ### 配置 ProtoBuf 解压缩配置
 ```xml
@@ -121,6 +128,7 @@ client.request("test", new JSONObject() {{
 client.getOptions().setProtosRequestJson(getResources().getString(R.string.protos_request_json)); // 获取 ProtoBuf 请求配置
 client.getOptions().setProtosResponseJson(getResources().getString(R.string.protos_response_json)); // 获取 ProtoBuf 响应配置
 ```
+
 ### 运行样例
 ```text
 2021-01-27 09:27:55.973 4646-4730/com.summer.ssocket_lib I/Client: 连接成功: []
