@@ -61,7 +61,7 @@ client.on("shakehands", new Consumer() {
 client.on("reconnectioning", new Consumer() {
     @Override
     public void accept(Object o) {
-        Logger.i(TAG,"开始重连， 剩余重连次数", o);
+        Logger.i(TAG,"开始重连， 已重连次数", o);
     }
 });
 client.on("reconnection", new Consumer() {
