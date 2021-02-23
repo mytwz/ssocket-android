@@ -10,6 +10,7 @@ import java.util.Arrays;
 public class ByteUtils {
 
     private static final String TAG = "ByteUtils";
+    private static final int UINT_MAX = 0xFFFFFFFF;
 
     private ByteUtils(){}
 

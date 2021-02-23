@@ -24,12 +24,12 @@ implementation 'com.alibaba:fastjson:1.2.73'
 import com.summer.ssocket.Client;
 import androidx.core.util.Consumer;
 
-Client client = new Client("http://127.0.0.1:8080");
+Client client = new Client("http://127.0.0.1:8080", this/*Context*/);
 ```
 
 ### 发起连接
 ```Java
-client.connection()
+client.connection()// 该方法在网络状态为 True 的时候会自动调用，当网络不可用的时候不会发起重连
 ```
 ### 绑定基础事件
 ```Java

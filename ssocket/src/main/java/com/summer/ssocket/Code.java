@@ -50,7 +50,11 @@ public class Code {
         /**关闭 */
         CLOSE(4),
         /**重连 */
-        RECONNECTION(5);
+        RECONNECTION(5),
+        /**手动关闭*/
+        SHUTDOWN(6),
+        /**正在连接*/
+        OPENING(7);
 
         private int value;
         public int getValue(){ return this.value; }
@@ -165,7 +169,7 @@ public class Code {
         int index = 0;
         ByteUtils.writeUInt8(buffer, (byte)type.getValue(), index); index += 1;
         if(type == PackageType.HEARTBEAT){
-            ByteUtils.writeDouble(buffer, (double) System.currentTimeMillis(), index); index += 8;
+            ByteUtils.writeUInt64(buffer, System.currentTimeMillis(), index); index += 8;
         }
         return ByteUtils.slice(buffer, 0, index).array();
     }
@@ -208,7 +212,7 @@ public class Code {
                     ).build();
         }
         else if(type == PackageType.HEARTBEAT.getValue()){
-            long data = (long) ByteUtils.readDouble(buffer, index);
+            long data = ByteUtils.readUInt64(buffer, index);
             return Package.builder().type(type).data(data).build();
         }
         else if(type == PackageType.SHAKEHANDS.getValue()){
@@ -229,6 +233,7 @@ public class Code {
         put(4100, "client ping timeout");
         put(4102, "server ping timeout");
         put(4101, "connection close");
+        put(4020, "client close");
         put(200, "ok");
     }};
 
