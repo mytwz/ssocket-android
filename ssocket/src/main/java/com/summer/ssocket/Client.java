@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 import com.alibaba.fastjson.JSONObject;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -58,6 +61,7 @@ public class Client extends Emitter {
     private String url = null;
     private WebSocket socket;
     private boolean is_pong = true;
+    private Map<Integer, Integer> requestIDDic = new HashMap<>();
     private Handler timer_handler = new Handler();
     private Runnable heartbeat_time_out_run = new Runnable() {
         @Override
@@ -115,17 +119,20 @@ public class Client extends Emitter {
     public Client(String url, Context app){
         super();
         try{
+            this.status = Code.SocketStatus.INIT;
             this.app = app;
             this.options = new Options();
             this.url = url  + (url.contains("?") ? "&" : "?") + "e=android&v=1.0.0";
             this.netWorkStateReceiver = new NetWorkStateReceiver("www.baidu.com").onNetworkStatus(new Consumer<Boolean>(){
                 @Override
                 public void accept(Boolean isconn) {
-                    if(!isconn) {
+                    if(!isconn && status == Code.SocketStatus.CONNECTION) {
                         status = Code.SocketStatus.SHUTDOWN;
                         close();
                     }
-                    else connection();
+                    else if(status == Code.SocketStatus.CLOSE){
+                        connection();
+                    }
                 }
             });
             reconnect_count = options.reconnect_count;
@@ -142,7 +149,7 @@ public class Client extends Emitter {
     public Client connection(){
         try{
             if(status == Code.SocketStatus.OPENING ) return this;
-            if(status == Code.SocketStatus.CLOSE || status == Code.SocketStatus.SHUTDOWN) {
+            if(status == Code.SocketStatus.CLOSE || status == Code.SocketStatus.SHUTDOWN || status == Code.SocketStatus.INIT) {
             if(!"".equals(options.id)) this.id = options.id;
             if(options.getProtosRequestJson() != null){
                 Code.parseRequestJson(options.getProtosRequestJson());
@@ -254,14 +261,19 @@ public class Client extends Emitter {
 
     private void handleClose(int code){
         try {
-            if(status == Code.SocketStatus.SHUTDOWN || status == Code.SocketStatus.CLOSE) return;
-            status = Code.SocketStatus.CLOSE;
-            socket = null;
-            if(--reconnect_count > 0){
-                timer_handler.postDelayed(reconnect_run, options.reconnect_interval);
-            }
+            if(status == Code.SocketStatus.CLOSE) return;
             emit("close", code);
             Logger.i(TAG,"连接关闭", status);
+            for(Integer event : requestIDDic.keySet()){
+                emit(event.toString(), Code.PackageData.builder().status(code).msg("client close").build());
+            }
+            if(status != Code.SocketStatus.SHUTDOWN){
+                status = Code.SocketStatus.CLOSE;
+                socket = null;
+                if(--reconnect_count > 0){
+                    timer_handler.postDelayed(reconnect_run, options.reconnect_interval);
+                }
+            }
         }
         catch (Exception e){
             Logger.e(TAG,e, "重连报错");
@@ -283,12 +295,18 @@ public class Client extends Emitter {
         }
     }
 
-    public void request(String path, JSONObject data, Consumer callback){
+    public void request(String path, JSONObject data, final Consumer callback){
         if(isSendData()){
             Code.PackageData.PackageDataBuilder packageData = Code.PackageData.builder().path(path).data(data);
-            int request_id = __index__++ > 9999999 ? (__index__ = 1) : __index__;
+            final int request_id = __index__++ > 9999999 ? (__index__ = 1) : __index__;
             if(callback != null){
-                once(String.valueOf(request_id), callback);
+                once(String.valueOf(request_id), new Consumer() {
+                    @Override
+                    public void accept(Object o) {
+                        requestIDDic.remove(request_id);
+                        callback.accept(o);
+                    }
+                });
             }
             packageData.request_id(request_id);
             try {

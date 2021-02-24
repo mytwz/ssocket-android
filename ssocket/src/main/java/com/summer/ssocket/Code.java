@@ -54,7 +54,9 @@ public class Code {
         /**手动关闭*/
         SHUTDOWN(6),
         /**正在连接*/
-        OPENING(7);
+        OPENING(7),
+        /**初始化*/
+        INIT(8);
 
         private int value;
         public int getValue(){ return this.value; }
