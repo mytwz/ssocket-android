@@ -225,10 +225,10 @@ public class Client extends Emitter {
                         else if(Code.PackageType.DATA.getValue() == aPackage.getType()){
                             Code.PackageData body = aPackage.getData();
                             if(body.getRequest_id() != 0){
-                                emit(String.valueOf(body.getRequest_id()), body.getData());
+                                emit(String.valueOf(body.getRequest_id()), body);
                             }
                             else {
-                                emit(body.getPath(), body.getData());
+                                emit(body.getPath(), body);
                             }
                         }
                     }
